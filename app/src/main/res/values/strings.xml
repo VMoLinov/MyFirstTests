@@ -5,4 +5,5 @@
     <string name="email_hint">Enter your Email</string>
     <string name="invalid_email">Invalid email</string>
     <string name="valid_email">OK</string>
+    <string name="number">Enter a number</string>
 </resources>
