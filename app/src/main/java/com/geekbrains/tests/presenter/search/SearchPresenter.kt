@@ -1,5 +1,6 @@
 package com.geekbrains.tests.presenter.search
 
+import android.view.View
 import com.geekbrains.tests.model.SearchResponse
 import com.geekbrains.tests.repository.GitHubRepository
 import com.geekbrains.tests.repository.GitHubRepository.GitHubRepositoryCallback
@@ -19,32 +20,54 @@ internal class SearchPresenter internal constructor(
     private val repository: GitHubRepository
 ) : PresenterSearchContract, GitHubRepositoryCallback {
 
+    internal var view: View? = null
+        private set
+
     override fun searchGitHub(searchQuery: String) {
-        viewContract.displayLoading(true)
-        repository.searchGithub(searchQuery, this)
+        if (checkView()) {
+            viewContract.displayLoading(true)
+            repository.searchGithub(searchQuery, this)
+        }
+    }
+
+    override fun onAttach(view: View) {
+        this.view = view
+    }
+
+
+    override fun onDetach() {
+        this.view = null
     }
 
     override fun handleGitHubResponse(response: Response<SearchResponse?>?) {
-        viewContract.displayLoading(false)
-        if (response != null && response.isSuccessful) {
-            val searchResponse = response.body()
-            val searchResults = searchResponse?.searchResults
-            val totalCount = searchResponse?.totalCount
-            if (searchResults != null && totalCount != null) {
-                viewContract.displaySearchResults(
-                    searchResults,
-                    totalCount
-                )
+        if (checkView()) {
+            viewContract.displayLoading(false)
+            if (response != null && response.isSuccessful) {
+                val searchResponse = response.body()
+                val searchResults = searchResponse?.searchResults
+                val totalCount = searchResponse?.totalCount
+                if (searchResults != null && totalCount != null) {
+                    viewContract.displaySearchResults(
+                        searchResults,
+                        totalCount
+                    )
+                } else {
+                    viewContract.displayError("Search results or total count are null")
+                }
             } else {
-                viewContract.displayError("Search results or total count are null")
+                viewContract.displayError("Response is null or unsuccessful")
             }
-        } else {
-            viewContract.displayError("Response is null or unsuccessful")
         }
     }
 
     override fun handleGitHubError() {
-        viewContract.displayLoading(false)
-        viewContract.displayError()
+        if (checkView()) {
+            viewContract.displayLoading(false)
+            viewContract.displayError()
+        }
+    }
+
+    private fun checkView(): Boolean {
+        return view != null
     }
 }

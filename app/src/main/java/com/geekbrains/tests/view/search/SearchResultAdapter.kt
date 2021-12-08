@@ -11,7 +11,8 @@ import com.geekbrains.tests.view.search.SearchResultAdapter.SearchResultViewHold
 
 internal class SearchResultAdapter : RecyclerView.Adapter<SearchResultViewHolder>() {
 
-    private var results: List<SearchResult> = listOf()
+    internal var results: List<SearchResult> = listOf()
+        private set
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

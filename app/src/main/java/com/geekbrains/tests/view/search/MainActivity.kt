@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUI()
+        presenter.onAttach(binding.root)
     }
 
     private fun setUI() {
@@ -97,6 +98,11 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
     }
 
     companion object {
