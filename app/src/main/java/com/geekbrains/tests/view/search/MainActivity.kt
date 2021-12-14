@@ -51,21 +51,27 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
     private fun setQueryListener() {
         binding.searchEditText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val query = binding.searchEditText.text.toString()
-                if (query.isNotBlank()) {
-                    presenter.searchGitHub(query)
-                    return@OnEditorActionListener true
-                } else {
-                    Toast.makeText(
-                        this@MainActivity,
-                        getString(R.string.enter_search_word),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    return@OnEditorActionListener false
-                }
+                return@OnEditorActionListener searchReaction(binding.searchEditText.text.toString())
             }
             false
         })
+        binding.searchButton.setOnClickListener {
+            searchReaction(binding.searchEditText.text.toString())
+        }
+    }
+
+    private fun searchReaction(query: String): Boolean {
+        return if (query.isNotBlank()) {
+            presenter.searchGitHub(query)
+            true
+        } else {
+            Toast.makeText(
+                this@MainActivity,
+                getString(R.string.enter_search_word),
+                Toast.LENGTH_SHORT
+            ).show()
+            false
+        }
     }
 
     private fun createRepository(): RepositoryContract {
