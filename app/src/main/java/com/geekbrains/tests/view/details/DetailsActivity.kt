@@ -23,24 +23,26 @@ class DetailsActivity : AppCompatActivity(), ViewDetailsContract {
     }
 
     private fun setUI() {
-        presenter.onAttach(binding.root)
-        presenter.setCounter(intent.getIntExtra(TOTAL_COUNT_EXTRA, 0))
+        val count = intent.getIntExtra(TOTAL_COUNT_EXTRA, 0)
+        presenter.setCounter(count)
+        setCountText(count)
         binding.decrementButton.setOnClickListener { presenter.onDecrement() }
         binding.incrementButton.setOnClickListener { presenter.onIncrement() }
     }
 
     override fun setCount(count: Int) {
+        setCountText(count)
+    }
+
+    private fun setCountText(count: Int) {
         binding.totalCountTextView.text =
             String.format(Locale.getDefault(), getString(R.string.results_count), count)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.onDetach()
-    }
-
     companion object {
+
         const val TOTAL_COUNT_EXTRA = "TOTAL_COUNT_EXTRA"
+
         fun getIntent(context: Context, totalCount: Int): Intent {
             return Intent(context, DetailsActivity::class.java).apply {
                 putExtra(TOTAL_COUNT_EXTRA, totalCount)

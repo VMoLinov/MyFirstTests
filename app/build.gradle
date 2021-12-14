@@ -22,6 +22,17 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        fake {
+            initWith debug
+            applicationIdSuffix ".fake"
+            versionNameSuffix "-fake"
+            buildConfigField "String", "TYPE", '"FAKE"'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            buildConfigField "String", "TYPE", '"DEBUG"'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
