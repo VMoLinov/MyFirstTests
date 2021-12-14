@@ -1,4 +1,4 @@
-package com.geekbrains.tests.view
+package com.geekbrains.tests.view.search
 
 import android.os.Bundle
 import android.view.View
@@ -9,28 +9,33 @@ import androidx.appcompat.app.AppCompatActivity
 import com.geekbrains.tests.R
 import com.geekbrains.tests.databinding.ActivityMainBinding
 import com.geekbrains.tests.model.SearchResult
-import com.geekbrains.tests.presenter.PresenterContract
-import com.geekbrains.tests.presenter.SearchPresenter
+import com.geekbrains.tests.presenter.search.PresenterSearchContract
+import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubApi
 import com.geekbrains.tests.repository.GitHubRepository
+import com.geekbrains.tests.view.details.DetailsActivity
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 
-class MainActivity : AppCompatActivity(), ViewContract {
+class MainActivity : AppCompatActivity(), ViewSearchContract {
 
-    private val adapter = SearchResultAdapter()
-    private val presenter: PresenterContract = SearchPresenter(this, createRepository())
     private lateinit var binding: ActivityMainBinding
+    private val adapter = SearchResultAdapter()
+    private val presenter: PresenterSearchContract = SearchPresenter(this, createRepository())
+    private var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUI()
+        presenter.onAttach(binding.root)
     }
 
     private fun setUI() {
+        binding.toDetailsActivityButton.setOnClickListener {
+            startActivity(DetailsActivity.getIntent(this, totalCount))
+        }
         setQueryListener()
         setRecyclerView()
     }
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity(), ViewContract {
     }
 
     private fun setQueryListener() {
-        binding.searchEditText.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+        binding.searchEditText.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = binding.searchEditText.text.toString()
                 if (query.isNotBlank()) {
@@ -75,9 +80,8 @@ class MainActivity : AppCompatActivity(), ViewContract {
         searchResults: List<SearchResult>,
         totalCount: Int
     ) {
+        this.totalCount = totalCount
         adapter.updateResults(searchResults)
-        binding.resultsCountTextView.text =
-            String.format(Locale.getDefault(), getString(R.string.results_count), totalCount)
     }
 
     override fun displayError() {
@@ -94,6 +98,11 @@ class MainActivity : AppCompatActivity(), ViewContract {
         } else {
             binding.progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onDetach()
     }
 
     companion object {

@@ -16,7 +16,6 @@ local.properties
 .idea/
 *.pro
 app/src/androidTest/
-app/src/test/
 app/keys.jks
 *.aab
 gradlew.bat

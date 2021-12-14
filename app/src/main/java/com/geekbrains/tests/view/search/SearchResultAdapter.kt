@@ -1,4 +1,4 @@
-package com.geekbrains.tests.view
+package com.geekbrains.tests.view.search
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.geekbrains.tests.R
 import com.geekbrains.tests.model.SearchResult
-import com.geekbrains.tests.view.SearchResultAdapter.SearchResultViewHolder
+import com.geekbrains.tests.view.search.SearchResultAdapter.SearchResultViewHolder
 
 internal class SearchResultAdapter : RecyclerView.Adapter<SearchResultViewHolder>() {
 
-    private var results: List<SearchResult> = listOf()
+    internal var results: List<SearchResult> = listOf()
+        private set
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
