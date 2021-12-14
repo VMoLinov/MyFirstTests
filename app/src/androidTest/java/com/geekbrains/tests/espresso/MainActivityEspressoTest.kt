@@ -1,4 +1,4 @@
-package com.geekbrains.tests
+package com.geekbrains.tests.espresso
 
 import android.view.View
 import androidx.test.core.app.ActivityScenario
@@ -9,6 +9,8 @@ import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.geekbrains.tests.BuildConfig
+import com.geekbrains.tests.R
 import com.geekbrains.tests.view.search.MainActivity
 import org.hamcrest.Matcher
 import org.junit.After
@@ -31,8 +33,12 @@ class MainActivityEspressoTest {
         onView(withId(R.id.searchEditText)).perform(click())
         onView(withId(R.id.searchEditText)).perform(replaceText("algol"), closeSoftKeyboard())
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
-        onView(isRoot()).perform(delay())
-        onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2713")))
+        if (BuildConfig.TYPE == MainActivity.FAKE) {
+            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 42")))
+        } else {
+            onView(isRoot()).perform(delay())
+            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2713")))
+        }
     }
 
     private fun delay(): ViewAction {
@@ -43,19 +49,6 @@ class MainActivityEspressoTest {
                 uiController.loopMainThreadForAtLeast(2000)
             }
         }
-    }
-
-    @Test
-    fun buttonText_IsCorrect() {
-        onView(withId(R.id.toDetailsActivityButton)).check(matches(isDisplayed()))
-        onView(withId(R.id.toDetailsActivityButton)).check(matches(withText(R.string.to_details)))
-    }
-
-    @Test
-    fun edittext_IsCorrect() {
-        onView(withId(R.id.searchEditText)).check(matches(isDisplayed()))
-        onView(withId(R.id.searchEditText)).perform(replaceText("string"), closeSoftKeyboard())
-        onView(withId(R.id.searchEditText)).check(matches(withText("string")))
     }
 
     @After
