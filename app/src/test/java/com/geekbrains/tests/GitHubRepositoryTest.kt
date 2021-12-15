@@ -32,7 +32,6 @@ class GitHubRepositoryTest {
     fun searchGithub_Test() {
         val searchQuery = "some query"
         val call = mock(Call::class.java) as Call<SearchResponse?>
-
         `when`(gitHubApi.searchGithub(searchQuery)).thenReturn(call)
         repository.searchGithub(searchQuery, mock(RepositoryCallback::class.java))
         verify(gitHubApi, times(1)).searchGithub(searchQuery)
