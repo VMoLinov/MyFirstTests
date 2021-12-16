@@ -1,7 +1,5 @@
 package com.geekbrains.tests.view.search
 
-import android.view.View
-import android.view.ViewGroup
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -9,10 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.geekbrains.tests.R
-import org.hamcrest.Description
-import org.hamcrest.Matcher
-import org.hamcrest.Matchers.allOf
-import org.hamcrest.TypeSafeMatcher
+import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_PLUS_1
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -33,57 +28,12 @@ class MainActivityTest {
         val toDetailsActivityButton =
             onView(withId(R.id.toDetailsActivityButton)).check(matches(isDisplayed()))
         toDetailsActivityButton.perform(click())
-
-        val incrementButton = onView(
-            allOf(
-                withId(R.id.incrementButton), withText("+"),
-                childAtPosition(
-                    childAtPosition(
-                        withId(android.R.id.content),
-                        0
-                    ),
-                    2
-                ),
-                isDisplayed()
-            )
-        )
+        val incrementButton = onView(withId(R.id.incrementButton)).check(matches(isDisplayed()))
         incrementButton.perform(click())
-
-        val textView = onView(
-            allOf(
-                withId(R.id.totalCountTextView), withText("Number of results: 1"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        textView.check(matches(withText("Number of results: 1")))
-
-        val button = onView(
-            allOf(
-                withId(R.id.incrementButton), withText("+"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        button.check(matches(isDisplayed()))
-    }
-
-    private fun childAtPosition(
-        parentMatcher: Matcher<View>, position: Int
-    ): Matcher<View> {
-
-        return object : TypeSafeMatcher<View>() {
-            override fun describeTo(description: Description) {
-                description.appendText("Child at position $position in parent ")
-                parentMatcher.describeTo(description)
-            }
-
-            public override fun matchesSafely(view: View): Boolean {
-                val parent = view.parent
-                return parent is ViewGroup && parentMatcher.matches(parent)
-                        && view == parent.getChildAt(position)
-            }
-        }
+        val totalCountTextView =
+            onView(withId(R.id.totalCountTextView)).check(matches(isDisplayed()))
+        totalCountTextView.check(matches(withText(TEST_NUMBER_OF_RESULTS_PLUS_1)))
+        incrementButton.check(matches(isDisplayed()))
     }
 
     @After
