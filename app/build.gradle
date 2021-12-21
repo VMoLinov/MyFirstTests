@@ -51,6 +51,14 @@ android {
             buildConfigField "String", "TYPE", '"REAL"'
         }
     }
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+        test {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+    }
 }
 
 dependencies {
@@ -75,6 +83,9 @@ dependencies {
 
     //UI Automator
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+
+    //Kaspresso
+    implementation 'com.kaspersky.android-components:kaspresso:1.4.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
