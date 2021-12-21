@@ -41,3 +41,5 @@ gradlew
 *.jar
 
 buildSrc/build/classes/kotlin/main/META-INF/buildSrc.kotlin_module
+
+app/google-services.json
