@@ -24,7 +24,7 @@ class GitHubRepositoryTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
         repository = GitHubRepository(gitHubApi)
     }
 
@@ -43,44 +43,34 @@ class GitHubRepositoryTest {
         val searchQuery = "some query"
         val response = mock(Response::class.java) as Response<SearchResponse?>
         val gitHubRepositoryCallBack = mock(RepositoryCallback::class.java)
-
         val call = object : Call<SearchResponse?> {
             override fun enqueue(callback: Callback<SearchResponse?>) {
                 callback.onResponse(this, response)
                 callback.onFailure(this, Throwable())
             }
-
             override fun clone(): Call<SearchResponse?> {
                 TODO("Not yet implemented")
             }
-
             override fun execute(): Response<SearchResponse?> {
                 TODO("Not yet implemented")
             }
-
             override fun isExecuted(): Boolean {
                 TODO("Not yet implemented")
             }
-
             override fun cancel() {
             }
-
             override fun isCanceled(): Boolean {
                 TODO("Not yet implemented")
             }
-
             override fun request(): Request {
                 TODO("Not yet implemented")
             }
-
             override fun timeout(): Timeout {
                 TODO("Not yet implemented")
             }
         }
-
         `when`(gitHubApi.searchGithub(searchQuery)).thenReturn(call)
         repository.searchGithub(searchQuery, gitHubRepositoryCallBack)
-
         verify(gitHubRepositoryCallBack, times(1)).handleGitHubResponse(response)
         verify(gitHubRepositoryCallBack, times(1)).handleGitHubError()
     }
@@ -92,17 +82,14 @@ class GitHubRepositoryTest {
         val callBack = mock(Callback::class.java) as Callback<SearchResponse?>
         val gitHubRepositoryCallBack = mock(RepositoryCallback::class.java)
         val response = mock(Response::class.java) as Response<SearchResponse?>
-
         `when`(gitHubApi.searchGithub(searchQuery)).thenReturn(call)
-        `when`(call.enqueue(callBack)).then {
+        `when`(call.enqueue(any())).then {
             callBack.onResponse(any(), any())
         }
         `when`(callBack.onResponse(any(), any())).then {
             gitHubRepositoryCallBack.handleGitHubResponse(response)
         }
-
         repository.searchGithub(searchQuery, gitHubRepositoryCallBack)
-
         verify(gitHubRepositoryCallBack, times(1)).handleGitHubResponse(response)
     }
 }

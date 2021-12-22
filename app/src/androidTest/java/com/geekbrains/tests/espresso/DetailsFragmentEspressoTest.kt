@@ -13,6 +13,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.geekbrains.tests.R
 import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_PLUS_1
 import com.geekbrains.tests.view.details.DetailsFragment
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +37,6 @@ class DetailsFragmentEspressoTest {
         val scenario = launchFragmentInContainer<DetailsFragment>(fragmentArgs)
         //Возможность менять стейт Фрагмента
         scenario.moveToState(Lifecycle.State.RESUMED)
-
         val assertion = matches(withText("Number of results: 10"))
         onView(withId(R.id.totalCountTextView)).check(assertion)
     }
@@ -54,5 +54,10 @@ class DetailsFragmentEspressoTest {
     fun fragment_testIncrementButton() {
         onView(withId(R.id.incrementButton)).perform(click())
         onView(withId(R.id.totalCountTextView)).check(matches(withText(TEST_NUMBER_OF_RESULTS_PLUS_1)))
+    }
+
+    @After
+    fun close() {
+        scenario.close()
     }
 }
