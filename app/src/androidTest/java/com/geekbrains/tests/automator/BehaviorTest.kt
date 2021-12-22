@@ -27,10 +27,8 @@ class BehaviorTest {
     //Именно через UiDevice вы можете управлять устройством, открывать приложения
     //и находить нужные элементы на экране
     private val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
-
     //Контекст нам понадобится для запуска нужных экранов и получения packageName
     private val context = ApplicationProvider.getApplicationContext<Context>()
-
     //Путь к классам нашего приложения, которые мы будем тестировать
     private val packageName = context.packageName
 
@@ -67,7 +65,6 @@ class BehaviorTest {
         //Отправляем запрос через Espresso
         Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
             .perform(ViewActions.pressImeActionButton())
-
         //Ожидаем конкретного события: появления текстового поля totalCountTextView.
         //Это будет означать, что сервер вернул ответ с какими-то данными, то есть запрос отработал.
         val changedText =
