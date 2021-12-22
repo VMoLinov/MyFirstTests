@@ -1,6 +1,7 @@
 package com.geekbrains.tests.kaspresso
 
 import androidx.test.core.app.ActivityScenario
+import com.geekbrains.tests.DetailsScreenActivity
 import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_MINUS_1
 import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_PLUS_1
 import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_ZERO
@@ -25,21 +26,21 @@ class DetailsScreenTest : TestCase() {
     fun detailsScreenTest() {
         run {
             step("Screen not null") {
-                Assert.assertNotNull(DetailsScreen)
+                Assert.assertNotNull(DetailsScreenActivity)
             }
             step("Has text") {
-                DetailsScreen {
+                DetailsScreenActivity {
                     totalCountTextView.hasText(TEST_NUMBER_OF_RESULTS_ZERO)
                 }
             }
             step("Increment") {
-                DetailsScreen {
+                DetailsScreenActivity {
                     incrementButton.click()
                     totalCountTextView.hasText(TEST_NUMBER_OF_RESULTS_PLUS_1)
                 }
             }
             step("Decrement") {
-                DetailsScreen {
+                DetailsScreenActivity {
                     decrementButton.click()
                     totalCountTextView.hasText(TEST_NUMBER_OF_RESULTS_ZERO)
                     decrementButton.click()

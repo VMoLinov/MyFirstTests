@@ -1,4 +1,4 @@
-package com.geekbrains.tests.espresso
+package com.geekbrains.tests.kaspresso
 
 import androidx.core.os.bundleOf
 import androidx.fragment.app.testing.FragmentScenario
@@ -46,8 +46,6 @@ class DetailsFragmentKaspressoTest {
             totalCountTextView.hasText(TEST_NUMBER_OF_RESULTS_PLUS_1)
         }
     }
-
-
 
     @After
     fun close() {
