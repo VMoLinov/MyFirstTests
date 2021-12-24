@@ -2,6 +2,7 @@ package com.geekbrains.tests.presenter.search
 
 import com.geekbrains.tests.model.SearchResponse
 import com.geekbrains.tests.presenter.RepositoryContract
+import com.geekbrains.tests.presenter.SchedulerProvider
 import com.geekbrains.tests.repository.RepositoryCallback
 import com.geekbrains.tests.view.search.ViewSearchContract
 import io.reactivex.disposables.CompositeDisposable
@@ -19,7 +20,7 @@ import retrofit2.Response
 internal class SearchPresenter internal constructor(
     private val viewContract: ViewSearchContract,
     private val repository: RepositoryContract,
-    private val appSchedulerProvider: SearchSchedulerProvider = SearchSchedulerProvider()
+    private val appSchedulerProvider: SchedulerProvider = SearchSchedulerProvider()
 ) : PresenterSearchContract, RepositoryCallback {
 
     override fun searchGitHub(searchQuery: String) {
