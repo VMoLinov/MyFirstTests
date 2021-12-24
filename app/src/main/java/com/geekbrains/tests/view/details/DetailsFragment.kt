@@ -22,7 +22,7 @@ class DetailsFragment : Fragment(), ViewDetailsContract {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -51,8 +51,8 @@ class DetailsFragment : Fragment(), ViewDetailsContract {
     }
 
     override fun onDestroy() {
-        _binding = null
         super.onDestroy()
+        _binding = null
     }
 
     companion object {

@@ -11,7 +11,6 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.geekbrains.tests.BuildConfig
 import com.geekbrains.tests.R
-import com.geekbrains.tests.TEST_NUMBER
 import com.geekbrains.tests.view.search.MainActivity
 import org.hamcrest.Matcher
 import org.junit.After
@@ -36,10 +35,10 @@ class MainActivityEspressoTest {
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
 
         if (BuildConfig.TYPE == MainActivity.FAKE) {
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: $TEST_NUMBER")))
+            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 42")))
         } else {
             onView(isRoot()).perform(delay())
-            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2720")))
+            onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2283")))
         }
     }
 

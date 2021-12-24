@@ -24,6 +24,7 @@ internal class SearchPresenter internal constructor(
 ) : PresenterSearchContract, RepositoryCallback {
 
     override fun searchGitHub(searchQuery: String) {
+        //Dispose
         val compositeDisposable = CompositeDisposable()
         compositeDisposable.add(
             repository.searchGithub(searchQuery)
@@ -32,20 +33,27 @@ internal class SearchPresenter internal constructor(
                 .doOnSubscribe { viewContract.displayLoading(true) }
                 .doOnTerminate { viewContract.displayLoading(false) }
                 .subscribeWith(object : DisposableObserver<SearchResponse>() {
+
                     override fun onNext(searchResponse: SearchResponse) {
                         val searchResults = searchResponse.searchResults
                         val totalCount = searchResponse.totalCount
                         if (searchResults != null && totalCount != null) {
-                            viewContract.displaySearchResults(searchResults, totalCount)
+                            viewContract.displaySearchResults(
+                                searchResults,
+                                totalCount
+                            )
                         } else {
                             viewContract.displayError("Search results or total count are null")
                         }
                     }
+
                     override fun onError(e: Throwable) {
                         viewContract.displayError(e.message ?: "Response is null or unsuccessful")
                     }
-                    override fun onComplete() = Unit
-                })
+
+                    override fun onComplete() {}
+                }
+                )
         )
     }
 

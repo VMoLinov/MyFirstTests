@@ -27,8 +27,10 @@ class BehaviorTest {
     //Именно через UiDevice вы можете управлять устройством, открывать приложения
     //и находить нужные элементы на экране
     private val uiDevice: UiDevice = UiDevice.getInstance(getInstrumentation())
+
     //Контекст нам понадобится для запуска нужных экранов и получения packageName
     private val context = ApplicationProvider.getApplicationContext<Context>()
+
     //Путь к классам нашего приложения, которые мы будем тестировать
     private val packageName = context.packageName
 
@@ -36,11 +38,13 @@ class BehaviorTest {
     fun setup() {
         //Для начала сворачиваем все приложения, если у нас что-то запущено
         uiDevice.pressHome()
+
         //Запускаем наше приложение
         val intent = context.packageManager.getLaunchIntentForPackage(packageName)
         //Мы уже проверяли Интент на null в предыдущем тесте, поэтому допускаем, что Интент у нас не null
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)//Чистим бэкстек от запущенных ранее Активити
         context.startActivity(intent)
+
         //Ждем, когда приложение откроется на смартфоне чтобы начать тестировать его элементы
         uiDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), TIMEOUT)
     }
@@ -65,6 +69,7 @@ class BehaviorTest {
         //Отправляем запрос через Espresso
         Espresso.onView(ViewMatchers.withId(R.id.searchEditText))
             .perform(ViewActions.pressImeActionButton())
+
         //Ожидаем конкретного события: появления текстового поля totalCountTextView.
         //Это будет означать, что сервер вернул ответ с какими-то данными, то есть запрос отработал.
         val changedText =
@@ -89,6 +94,7 @@ class BehaviorTest {
         )
         //Кликаем по ней
         toDetails.click()
+
         //Ожидаем конкретного события: появления текстового поля totalCountTextView.
         //Это будет означать, что DetailsScreen открылся и это поле видно на экране.
         val changedText =

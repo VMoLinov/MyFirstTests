@@ -33,6 +33,7 @@ class MainActivityRecyclerViewTest {
     fun activitySearch_ScrollTo() {
         if (BuildConfig.TYPE == MainActivity.FAKE) {
             loadList()
+
             onView(withId(R.id.recyclerView))
                 .perform(
                     RecyclerViewActions.scrollTo<SearchResultViewHolder>(
@@ -46,6 +47,7 @@ class MainActivityRecyclerViewTest {
     fun activitySearch_PerformClickAtPosition() {
         if (BuildConfig.TYPE == MainActivity.FAKE) {
             loadList()
+
             onView(withId(R.id.recyclerView))
                 .perform(
                     RecyclerViewActions.actionOnItemAtPosition<SearchResultViewHolder>(
@@ -60,12 +62,14 @@ class MainActivityRecyclerViewTest {
     fun activitySearch_PerformClickOnItem() {
         if (BuildConfig.TYPE == MainActivity.FAKE) {
             loadList()
+
             onView(withId(R.id.recyclerView))
                 .perform(
                     RecyclerViewActions.scrollTo<SearchResultViewHolder>(
                         hasDescendant(withText("FullName: 50"))
                     )
                 )
+
             onView(withId(R.id.recyclerView))
                 .perform(
                     RecyclerViewActions.actionOnItem<SearchResultViewHolder>(

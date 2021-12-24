@@ -1,18 +1,15 @@
 package com.geekbrains.tests
 
 import com.geekbrains.tests.model.SearchResponse
+import com.geekbrains.tests.presenter.search.ScheduleProviderStub
 import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubRepository
-import com.geekbrains.tests.stubs.ScheduleProviderStub
 import com.geekbrains.tests.view.search.ViewSearchContract
-import com.nhaarman.mockitokotlin2.atLeastOnce
-import com.nhaarman.mockitokotlin2.verify
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.inOrder
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 class SearchPresenterTestRx {
@@ -48,9 +45,7 @@ class SearchPresenterTestRx {
     @Test //Проверим как обрабатывается ошибка запроса
     fun handleRequestError_Test() {
         `when`(repository.searchGithub(SEARCH_QUERY)).thenReturn(
-            Observable.error(
-                Throwable(ERROR_TEXT)
-            )
+            Observable.error(Throwable(ERROR_TEXT))
         )
         presenter.searchGitHub(SEARCH_QUERY)
         verify(viewContract, atLeastOnce()).displayError("error")

@@ -13,14 +13,14 @@ internal class FakeGitHubRepository : RepositoryContract {
         query: String,
         callback: RepositoryCallback
     ) {
-        callback.handleGitHubResponse(Response.success(generateFakeResponse()))
+        callback.handleGitHubResponse(Response.success(generateSearchResponse()))
     }
 
     override fun searchGithub(query: String): Observable<SearchResponse> {
-        return Observable.just(generateFakeResponse())
+        return Observable.just(generateSearchResponse())
     }
 
-    private fun generateFakeResponse(): SearchResponse {
+    private fun generateSearchResponse(): SearchResponse {
         val list: MutableList<SearchResult> = mutableListOf()
         for (index in 1..100) {
             list.add(
