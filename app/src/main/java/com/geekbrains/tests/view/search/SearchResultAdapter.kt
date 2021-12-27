@@ -17,11 +17,7 @@ internal class SearchResultAdapter : RecyclerView.Adapter<SearchResultViewHolder
         viewType: Int
     ): SearchResultViewHolder {
         return SearchResultViewHolder(
-            ListItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            ListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 

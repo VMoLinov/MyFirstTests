@@ -72,6 +72,7 @@ class DetailsActivityTest {
         scenario.onActivity {
             val decrementButton = it.findViewById<Button>(R.id.decrementButton)
             assertEquals(View.VISIBLE, decrementButton.visibility)
+
             val incrementButton = it.findViewById<Button>(R.id.incrementButton)
             assertEquals(View.VISIBLE, incrementButton.visibility)
         }
